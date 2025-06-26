@@ -263,6 +263,118 @@ paths:
           $ref: "#/components/responses/Internal"
       security:
         - bearerAuth: [ ]
+  /currency/:
+    get:
+      tags:
+        - Currency
+      summary: Get all currencies
+      description: This will return all supported currencies
+      operationId: getAllCurrencies
+      responses:
+        200:
+          description: Array of currencies
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Currency"
+        403:
+          $ref: "#/components/responses/Forbidden"
+        500:
+          $ref: "#/components/responses/Internal"
+      security:
+        - bearerAuth: [ ]
+    post:
+      tags:
+        - Currency
+      summary: Create a currency
+      description: This will create a currency
+      operationId: createCurrency
+      requestBody:
+        description: Currency to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Currency"
+      responses:
+        200:
+          description: The created currency
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Currency"
+        403:
+          $ref: "#/components/responses/Forbidden"
+        500:
+          $ref: "#/components/responses/Internal"
+      security:
+        - bearerAuth: [ ]
+  /currency/{currencyId}:
+    parameters:
+      - in: path
+        name: currencyId
+        schema:
+          type: integer
+        required: true
+        description: Currency Id to get
+    get:
+      tags:
+        - Currency
+      summary: Get currency by id
+      description: This will return a single currency
+      operationId: getCurrencyById
+      responses:
+        200:
+          description: The currency
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Currency"
+        403:
+          $ref: "#/components/responses/Forbidden"
+        500:
+          $ref: "#/components/responses/Internal"
+      security:
+        - bearerAuth: [ ]
+    put:
+      tags:
+        - Currency
+      summary: Update currency
+      description: This will update a currency by id
+      operationId: updateCurrency
+      requestBody:
+        description: Currency to update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Currency"
+      responses:
+        200:
+          $ref: "#/components/responses/Ok"
+        403:
+          $ref: "#/components/responses/Forbidden"
+        500:
+          $ref: "#/components/responses/Internal"
+      security:
+        - bearerAuth: [ ]
+    delete:
+      tags:
+        - Currency
+      summary: Delete currency
+      description: This will delete a currency by id
+      operationId: deleteCurrency
+      responses:
+        200:
+          $ref: "#/components/responses/Ok"
+        403:
+          $ref: "#/components/responses/Forbidden"
+        500:
+          $ref: "#/components/responses/Internal"
+      security:
+        - bearerAuth: [ ]
   /comment/:
     post:
       tags:
@@ -2595,6 +2707,20 @@ components:
       enum:
         - "START"
         - "END"
+    Currency:
+      allOf:
+        - $ref: "#/components/schemas/BaseModel"
+        - type: object
+          required:
+            - code
+            - name
+          properties:
+            code:
+              type: string
+              description: ISO currency code (e.g. USD)
+            name:
+              type: string
+              description: Currency name (e.g. US Dollar)
     QueueName:
       type: string
       enum:

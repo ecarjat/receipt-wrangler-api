@@ -128,5 +128,9 @@ func BuildRootRouter() *chi.Mux {
 	customFieldRouter := BuildCustomFieldRouter(tokenValidatorMiddleware)
 	rootRouter.Mount("/api/customField", customFieldRouter)
 
+	// Currency router
+	currencyRouter := BuildCurrencyRouter(tokenValidatorMiddleware)
+	rootRouter.Mount("/api/currency", currencyRouter)
+
 	return rootRouter
 }

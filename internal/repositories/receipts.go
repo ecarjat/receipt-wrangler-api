@@ -442,7 +442,7 @@ func (repository ReceiptRepository) GetPagedReceiptsByGroupId(
 		return nil, 0, err
 	}
 
-	query = query.Preload("Categories").Preload("Tags")
+	query = query.Preload("Categories").Preload("Tags").Preload("Currency")
 
 	if pagedRequest.PageSize > 0 && pagedRequest.Page > 0 {
 		query = query.Scopes(repository.Paginate(pagedRequest.Page, pagedRequest.PageSize))

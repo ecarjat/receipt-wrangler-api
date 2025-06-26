@@ -17,6 +17,7 @@ type UpsertReceiptCommand struct {
 	Date            time.Time                       `json:"date"`
 	GroupId         uint                            `json:"groupId"`
 	PaidByUserID    uint                            `json:"paidByUserId"`
+	CurrencyID      *uint                           `json:"currencyId"`
 	Status          models.ReceiptStatus            `json:"status"`
 	Categories      []UpsertCategoryCommand         `json:"categories"`
 	Tags            []UpsertTagCommand              `json:"tags"`
@@ -66,6 +67,10 @@ func (receipt *UpsertReceiptCommand) Validate(tokenUserId uint, isCreate bool) s
 
 	if receipt.PaidByUserID == 0 {
 		errors["paidByUserId"] = "Paid By User Id is required"
+	}
+
+	if receipt.CurrencyID != nil && *receipt.CurrencyID == 0 {
+		errors["currencyId"] = "Currency Id must be greater than 0"
 	}
 
 	if receipt.Status == "" {
